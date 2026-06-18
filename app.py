@@ -6,6 +6,7 @@ from flask import (
     flash
 )
 from database import get_connection
+from flask import request
 
 
 app = Flask(__name__)
@@ -49,12 +50,30 @@ def add_expense():
 
 @app.route('/view')
 def view_expenses():
+    
+    search = request.args.get("search", "")
 
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM expenses")
+    if search:
+        cursor.execute("""
+        SELECT *
+        FROM expenses
+        WHERE category LIKE ?
+        OR description LIKE ?
+        """,
+
+        ('%' + search + '%',
+        '%' + search + '%'))
+        
+    else:
+        cursor.execute("SELECT * FROM expenses")
+        
+        
     expenses = cursor.fetchall()
+            
+    
 
     # Total amount
     cursor.execute("""

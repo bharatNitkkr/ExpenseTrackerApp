@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="row mb-4">
-
+<div class="row g-4 mb-5">
+    
     <div class="col-md-3">
         <div class="card text-bg-primary">
             <div class="card-body">
@@ -42,6 +42,24 @@
 
 </div>
 
+<div class="row mb-4">
+
+    <div class="col-md-6">
+
+        <form action="/view" method="GET">
+
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search category or description..."
+                value="{{ search }}">
+
+        </form>
+
+    </div>
+
+</div>
 
 <h2 class="mb-3">All Expenses</h2>
 
@@ -150,7 +168,7 @@
 
 <hr class="mt-5">
 
-<h2 class="text-center mb-4">
+<h2 class="text-center mb-5">
     Expense Distribution
 </h2>
 
@@ -166,7 +184,7 @@
 
 <hr class="mt-5">
 
-<h2 class="text-center mb-4">
+<h2 class="text-center mb-5">
     Category Comparison
 </h2>
 
