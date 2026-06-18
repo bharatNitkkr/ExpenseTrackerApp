@@ -101,7 +101,7 @@ def view_expenses():
         
     cursor.execute("""
     SELECT category,
-    SUM(amount)
+        SUM(amount) AS total
     FROM expenses
     GROUP BY category
     """)
