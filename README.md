@@ -33,20 +33,25 @@ A professional Expense Tracker web application built using Flask and SQLite.
 
 ## Folder Structure
 
-ExpenseTrackerApp
+```text
+ExpenseTrackerApp/
 │
 ├── app.py
 ├── database.py
 ├── init_db.py
+│
 ├── static/
-│ └── style.css
+│   └── style.css
+│
 ├── templates/
-│ ├── base.html
-│ ├── index.html
-│ ├── add_expense.html
-│ ├── edit_expense.html
-│ ├── view_expenses.html
-│ └── about.html
+│   ├── base.html
+│   ├── index.html
+│   ├── add_expense.html
+│   ├── edit_expense.html
+│   ├── view_expenses.html
+│   └── about.html
+│
+├── .gitignore
 └── README.md
 
 ---
@@ -68,7 +73,7 @@ cd ExpenseTrackerApp
 Create virtual environment:
 
 ```bash
-python -m venv myenv 
+python -m venv myenv ##hvg
 ```
 
 Activate it:
