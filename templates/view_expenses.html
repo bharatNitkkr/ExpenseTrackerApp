@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>All Expenses</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5>Total Expenses</h5>
+                <h2>₹ {{ total }}</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h5>Total Entries</h5>
+                <h2>{{ count }}</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h5>Highest Expense</h5>
+                <h2>₹ {{ highest }}</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="card text-bg-danger">
+            <div class="card-body">
+                <h5>Average Expense</h5>
+                <h2>₹ {{ average }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<table class="table table-bordered table-hover mt-4">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>ID</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for expense in expenses %}
+
+        <tr>
+
+            <td>{{ expense["id"] }}</td>
+
+            <td>{{ expense["amount"] }}</td>
+
+            <td>{{ expense["category"] }}</td>
+
+            <td>{{ expense["description"] }}</td>
+
+            <td>
+
+                <a href="/edit/{{ expense['id'] }}"
+                   class="btn btn-warning btn-sm">
+
+                    Edit
+
+                </a>
+
+                <a href="/delete/{{ expense['id'] }}"
+                   class="btn btn-danger btn-sm">
+
+                    Delete
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+<div class="mt-4">
+
+    <a href="/add"
+       class="btn btn-primary">
+
+        Add More
+
+    </a>
+
+
+    <a href="/"
+       class="btn btn-secondary">
+
+        Home
+
+    </a>
+
+    <hr class="mt-5">
+
+<h2>Category-wise Expenses</h2>
+
+<table class="table table-striped mt-3">
+
+    <thead class="table-primary">
+
+        <tr>
+
+            <th>Category</th>
+
+            <th>Total Amount</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for row in category_totals %}
+
+        <tr>
+
+            <td>
+
+                {{ row["category"] }}
+
+            </td>
+
+            <td>
+
+                ₹ {{ row["SUM(amount)"] }}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}
