@@ -7,6 +7,7 @@ from flask import (
 )
 from database import get_connection
 from flask import request
+from datetime import date
 
 
 app = Flask(__name__)
@@ -29,14 +30,24 @@ def add_expense():
         amount = request.form['amount']
         category = request.form['category']
         description = request.form['description']
+        expense_date = date.today()
 
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("""
-            INSERT INTO expenses (amount, category, description)
-            VALUES (?, ?, ?)
-        """, (amount, category, description))
+        cursor.execute(
+            """
+            INSERT INTO expenses (
+            amount,
+            category,
+            description,
+            expense_date)
+                
+            VALUES (?, ?, ?, ?)
+            """, 
+            
+           (amount, category, description, expense_date)
+        )
 
         conn.commit()
         conn.close()
@@ -52,27 +63,60 @@ def add_expense():
 def view_expenses():
     
     search = request.args.get("search", "")
+    category_filter = request.args.get("category", "")
 
     conn = get_connection()
     cursor = conn.cursor()
 
-    if search:
+    if search and category_filter:
+
         cursor.execute("""
-        SELECT *
-        FROM expenses
-        WHERE category LIKE ?
-        OR description LIKE ?
+            SELECT *
+            FROM expenses
+            WHERE (category LIKE ?
+                   OR description LIKE ?)
+            AND category = ?
         """,
 
         ('%' + search + '%',
-        '%' + search + '%'))
-        
+         '%' + search + '%',
+         category_filter))
+
+    elif search:
+
+        cursor.execute("""
+            SELECT *
+            FROM expenses
+            WHERE category LIKE ?
+                OR description LIKE ?
+        """,
+
+        ('%' + search + '%',
+         '%' + search + '%'))
+
+    elif category_filter:
+
+        cursor.execute("""
+            SELECT *
+            FROM expenses
+            WHERE category = ?
+        """,
+
+        (category_filter,))
+
     else:
+
         cursor.execute("SELECT * FROM expenses")
-        
-        
+
     expenses = cursor.fetchall()
-            
+    
+    cursor.execute("""
+        SELECT DISTINCT category
+        FROM expenses
+        """)
+
+    categories = cursor.fetchall()
+             
     
 
     # Total amount
@@ -138,7 +182,10 @@ def view_expenses():
         count=count,
         highest=highest,
         average=average,
-        category_totals=category_totals
+        category_totals=category_totals,
+        categories=categories,
+        search=search,
+        category_filter=category_filter
     )  
 
 

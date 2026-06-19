@@ -42,24 +42,61 @@
 
 </div>
 
+<form action="/view" method="GET">
+
 <div class="row mb-4">
 
-    <div class="col-md-6">
+    <div class="col-md-5">
 
-        <form action="/view" method="GET">
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search category or description..."
+            value="{{ search }}">
 
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Search category or description..."
-                value="{{ search }}">
+    </div>
 
-        </form>
+    <div class="col-md-3">
+
+        <select
+            class="form-select"
+            name="category">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for row in categories %}
+
+            <option
+                value="{{ row['category'] }}"
+                {% if row['category'] == category_filter %}
+                    selected
+                {% endif %}
+            >
+
+                {{ row['category'] }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="col-md-2">
+
+        <button class="btn btn-primary">
+            Filter
+        </button>
 
     </div>
 
 </div>
+
+</form>
 
 <h2 class="mb-3">All Expenses</h2>
 
@@ -72,6 +109,7 @@
             <th>Amount</th>
             <th>Category</th>
             <th>Description</th>
+            <th>Date</th>
             <th>Action</th>
         </tr>
 
@@ -90,6 +128,8 @@
             <td>{{ expense["category"] }}</td>
 
             <td>{{ expense["description"] }}</td>
+
+            <td>{{ expense["expense_date"] }}</td>
 
             <td>
 
