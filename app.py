@@ -7,7 +7,7 @@ from flask import (
 )
 from database import get_connection
 from flask import request
-from datetime import date
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def add_expense():
         amount = request.form['amount']
         category = request.form['category']
         description = request.form['description']
-        expense_date = date.today()
+        expense_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         conn = get_connection()
         cursor = conn.cursor()

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS expenses(
     amount REAL,
     category TEXT,
     description TEXT,
-    expense_date
+    expense_date TEXT
 )
 """)
 
