@@ -170,6 +170,17 @@ def view_expenses():
     """)
 
     category_totals = cursor.fetchall()
+    
+    cursor.execute("""
+    SELECT
+        strftime('%Y-%m', expense_date) AS month,
+        SUM(amount) AS total
+    FROM expenses
+    GROUP BY month
+    ORDER BY month
+    """)
+
+    monthly_totals = cursor.fetchall()
         
     conn.close()
     
@@ -185,7 +196,8 @@ def view_expenses():
         category_totals=category_totals,
         categories=categories,
         search=search,
-        category_filter=category_filter
+        category_filter=category_filter,
+        monthly_totals=monthly_totals
     )  
 
 

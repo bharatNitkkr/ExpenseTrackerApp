@@ -239,6 +239,23 @@
 </div>
 
 
+<hr class="mt-5">
+
+<h2 class="text-center mb-4">
+    Monthly Expense Trend
+</h2>
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <canvas id="lineChart"></canvas>
+
+    </div>
+
+</div>
+
+
 <script>
 
 alert("Script started");
@@ -255,6 +272,25 @@ const amounts = [
 {% endfor %}
 ];
 
+const months = [
+
+{% for row in monthly_totals %}
+"{{ row['month'] }}",
+{% endfor %}
+
+];
+
+const monthlyAmounts = [
+
+{% for row in monthly_totals %}
+{{ row['total'] }},
+{% endfor %}
+
+];
+
+
+alert(months);
+alert(monthlyAmounts);
 alert(categories);
 alert(amounts);
 
@@ -316,6 +352,48 @@ new Chart(document.getElementById("barChart"), {
             ],
 
             borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+new Chart(document.getElementById("lineChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: months,
+
+        datasets: [{
+
+            label: "Monthly Expenses",
+
+            data: monthlyAmounts,
+
+            fill: false,
+
+            tension: 0.3,
+
+            borderWidth: 3
 
         }]
 
